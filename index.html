@@ -37,7 +37,7 @@
         /* 4. Recomendación */
         .recomendacion-card { background: white; border-left: 5px solid #2196F3; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 14px; line-height: 1.5; font-weight: 500; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
         
-        /* 5. Comisiones de la semana (Crema) */
+        /* 5. Comisiones de la Semana (Crema) */
         .bloque-crema { background: #fffdf5; border: 1px solid #f0e6d2; padding: 20px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .bloque-crema h2 { margin: 0 0 15px 0; font-size: 16px; color: #5a4f3b; border-bottom: 1px solid #e8dec8; padding-bottom: 10px; text-align: center;}
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; text-align: center; }
@@ -159,7 +159,7 @@
 </div>
 
 <script>
-    // ⚠️ NO OLVIDES PEGAR TU URL DE GOOGLE APPS SCRIPT AQUÍ
+    // URL YA INTEGRADA
     const urlAPI = "https://script.google.com/macros/s/AKfycbzym_LHiVOKx9YjTDQLLgH0XwKm9dzFuufHyr7ild3C020txVQhc-jaZ6zfyiRKGCvhfQ/exec"; 
     
     let datosGlobales = {};
@@ -184,13 +184,15 @@
                     
                     document.getElementById('nombre-usuario').innerText = datosGlobales['Nombre'] || 'Promotor';
                     
-                    // Llenar Acumulados (Estos no cambian con el selector de semanas)
+                    // Llenar Acumulados
                     document.getElementById('val-comision-total').innerText = datosGlobales['COMISION TOTAL'] || '0';
                     document.getElementById('val-bono-total').innerText = datosGlobales['BONO_TOTAL'] || '0';
                     document.getElementById('val-total-mensual').innerText = datosGlobales['TOTAL_MENSUAL'] || '0';
 
-                    // Formatear Fecha
-                    let fechaTxt = datosGlobales['FECHA_PAGO'];
+                    // Formatear Fecha: Busca la primera columna que tenga la palabra "FECHA"
+                    let claveFecha = Object.keys(datosGlobales).find(k => k.toUpperCase().includes('FECHA'));
+                    let fechaTxt = claveFecha ? datosGlobales[claveFecha] : null;
+
                     if(fechaTxt && fechaTxt !== "") {
                         try {
                             const fechaObj = new Date(fechaTxt);
@@ -238,29 +240,26 @@
     }
 
     function calcularSemaforo(su, dft) {
-        // Días de la semana: 0 es Domingo, 1 es Lunes... 6 es Sábado
         let diaActual = new Date().getDay();
-        // Si es domingo (0), asumimos que trabajaron los 6 días completos de la semana
         let diasTrabajados = (diaActual === 0) ? 6 : diaActual;
         
-        // Meta proporcional por día
         let metaSuProporcional = (15 / 6) * diasTrabajados;
         let metaDftProporcional = (9 / 6) * diasTrabajados;
 
         let semaforoCaja = document.getElementById('semaforo-box');
 
         if(dft >= metaDftProporcional && su >= metaSuProporcional) {
-            semaforoCaja.innerText = "🟢 ¡Excelente ritmo! Vamos en meta";
+            semaforoCaja.innerText = "🟢 ¡Excelente ritmo! Vas por encima de tu meta proporcional.";
             semaforoCaja.style.backgroundColor = "#d4edda";
             semaforoCaja.style.color = "#155724";
             semaforoCaja.style.borderColor = "#c3e6cb";
         } else if (dft >= metaDftProporcional || su >= metaSuProporcional) {
-            semaforoCaja.innerText = "🟡 ¡Vas bien, pero enfócate en subir tus números!";
+            semaforoCaja.innerText = "🟡 ¡Vas bien! Pero enfócate en emparejar tus números (Te faltan SU o DFTs).";
             semaforoCaja.style.backgroundColor = "#fff3cd";
             semaforoCaja.style.color = "#856404";
             semaforoCaja.style.borderColor = "#ffeeba";
         } else {
-            semaforoCaja.innerText = "🔴 ¡Acelera el paso! Vas un poco por debajo de la meta";
+            semaforoCaja.innerText = "🔴 ¡Acelera el paso! Vas un poco por debajo de la meta para hoy.";
             semaforoCaja.style.backgroundColor = "#f8d7da";
             semaforoCaja.style.color = "#721c24";
             semaforoCaja.style.borderColor = "#f5c6cb";
