@@ -7,40 +7,56 @@
     <style>
         :root { --didi-orange: #ff7d00; --bg-color: #f4f6f8; --text: #333; }
         body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; padding: 20px; }
-        .container { max-width: 500px; margin: 0 auto; }
+        .container { max-width: 500px; margin: 0 auto; padding-bottom: 30px; }
         
-        /* Pantalla Login */
+        /* Login */
         #login-screen { text-align: center; margin-top: 50px; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         button { width: 100%; background: var(--didi-orange); color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
         
-        /* Dashboard */
+        /* Header */
         #dashboard-screen { display: none; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        select { padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; background: white; font-weight: bold; color: var(--text); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        select { padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; background: white; font-weight: bold; color: var(--text); }
         
-        /* Funnel (Leads, SU, DFT) */
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        /* 1. Meta */
+        .meta-box { background: #333; color: white; padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 20px; font-weight: bold; letter-spacing: 0.5px; }
+        .meta-box span { color: var(--didi-orange); }
+        
+        /* 2. Números Semanales */
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .card { background: white; padding: 15px 5px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: center; }
         .card h3 { margin: 0 0 8px 0; font-size: 13px; color: #666; font-weight: normal; }
         .card .number { font-size: 24px; font-weight: bold; margin: 0; color: #111; }
-        .card.highlight { background: var(--text); color: white; }
+        .card.highlight { background: var(--didi-orange); color: white; }
         .card.highlight h3, .card.highlight .number { color: white; }
         
-        /* Bloque de Comisiones */
-        .bloque-comisiones { background: white; padding: 20px; border-radius: 16px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
-        .bloque-comisiones h2 { margin: 0 0 15px 0; font-size: 16px; color: var(--text); border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        .monto-box h3 { margin: 0 0 5px 0; font-size: 13px; color: #666; font-weight: normal; }
-        .monto-box .dinero { font-size: 22px; font-weight: bold; margin: 0; color: #111; }
+        /* 3. Semáforo */
+        .semaforo-box { padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 14px; font-weight: 500; border: 1px solid rgba(0,0,0,0.1); }
         
-        /* Textos de Bono */
-        .bono-text { background: #f9f9f9; padding: 15px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #444; text-align: center; }
-        .bono-text strong { color: var(--didi-orange); font-size: 18px; }
+        /* 4. Recomendación */
+        .recomendacion-card { background: white; border-left: 5px solid #2196F3; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 14px; line-height: 1.5; font-weight: 500; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
         
-        /* Recomendación */
-        .recomendacion-card { background: #fff3e0; border-left: 5px solid var(--didi-orange); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; font-size: 15px; line-height: 1.5; }
+        /* 5. Comisiones de la semana (Crema) */
+        .bloque-crema { background: #fffdf5; border: 1px solid #f0e6d2; padding: 20px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        .bloque-crema h2 { margin: 0 0 15px 0; font-size: 16px; color: #5a4f3b; border-bottom: 1px solid #e8dec8; padding-bottom: 10px; text-align: center;}
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; text-align: center; }
+        .monto-box h3 { margin: 0 0 5px 0; font-size: 13px; color: #8c7e63; font-weight: normal; }
+        .monto-box .dinero { font-size: 22px; font-weight: bold; margin: 0; color: #4a3e2a; }
+        .bono-text { background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #5a4f3b; text-align: center; }
+        .bono-text strong { color: var(--didi-orange); font-size: 16px; }
+
+        hr.divisor { border: 0; border-top: 2px dashed #ddd; margin: 25px 0; }
+
+        /* 6. Acumulado Mensual */
+        .bloque-acumulado { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .bloque-acumulado h2 { margin: 0 0 15px 0; font-size: 16px; text-align: center; }
+        .acumulado-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; font-size: 14px;}
+        .total-mes { background: #222; color: white; text-align: center; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; }
         
+        /* 7. Fecha de Pago */
+        .fecha-box { text-align: center; font-size: 13px; color: #666; margin-top: 20px; font-style: italic; }
+
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--didi-orange); border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: 0 auto; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -48,7 +64,6 @@
 <body>
 
 <div class="container">
-    <!-- PANTALLA LOGIN -->
     <div id="login-screen">
         <h2>Bienvenido</h2>
         <p>Ingresa tu correo para ver tus métricas</p>
@@ -58,9 +73,8 @@
         <p id="error-msg" style="color: red; font-size: 14px;"></p>
     </div>
 
-    <!-- PANTALLA DASHBOARD -->
     <div id="dashboard-screen">
-        <!-- Saludo y Selector -->
+        <!-- Header -->
         <div class="header">
             <h2 style="margin:0; font-size: 18px;">Hola, <span id="nombre-usuario">Promotor</span></h2>
             <select id="selector-semana" onchange="actualizarVista()">
@@ -71,7 +85,12 @@
             </select>
         </div>
 
-        <!-- Funnel (Leads, SU, DFT) -->
+        <!-- 1. Meta -->
+        <div class="meta-box">
+            🎯 META SEMANAL: <span>15 SU</span> y <span>9 DFTs</span>
+        </div>
+
+        <!-- 2. Números -->
         <div class="grid-3">
             <div class="card">
                 <h3>Leads</h3>
@@ -82,14 +101,24 @@
                 <p class="number" id="val-su">0</p>
             </div>
             <div class="card highlight">
-                <h3>DFT</h3>
+                <h3>DFTs</h3>
                 <p class="number" id="val-dft">0</p>
             </div>
         </div>
 
-        <!-- Bloque de Comisiones -->
-        <div class="bloque-comisiones">
-            <h2>Tus comisiones Semanales:</h2>
+        <!-- 3. Semáforo -->
+        <div class="semaforo-box" id="semaforo-box">
+            🚦 Calculando tu ritmo...
+        </div>
+
+        <!-- 4. Recomendación -->
+        <div class="recomendacion-card" id="recomendacion-box">
+            💡 Cargando recomendación...
+        </div>
+
+        <!-- 5. Comisiones de la Semana -->
+        <div class="bloque-crema">
+            <h2>Tus comisiones de la semana</h2>
             <div class="grid-2">
                 <div class="monto-box">
                     <h3>Comisión</h3>
@@ -100,25 +129,38 @@
                     <p class="dinero">$<span id="val-bono">0</span></p>
                 </div>
             </div>
-            
             <div class="bono-text">
-                Para llegar al siguiente BONO SEMANAL te faltan <br><strong><span id="val-faltan">0</span></strong> conversiones.
-                <hr style="border: 0; border-top: 1px solid #ddd; margin: 10px 0;">
-                El siguiente bono es de... <strong>$<span id="val-sig-bono">0</span></strong>
+                Para llegar al siguiente BONO SEMANAL te faltan <strong><span id="val-faltan">0</span> DFTs</strong>.
+                <div style="margin-top: 8px;">El siguiente bono es de... <strong>$<span id="val-sig-bono">0</span></strong></div>
             </div>
         </div>
 
-        <!-- Recomendación -->
-        <div class="recomendacion-card" id="recomendacion-box">
-            <!-- La recomendación se inyecta aquí -->
+        <hr class="divisor">
+
+        <!-- 6. Acumulado Mes -->
+        <div class="bloque-acumulado">
+            <h2>Acumulado del Mes</h2>
+            <div class="acumulado-grid">
+                <div style="text-align: right; color: #666;">Comisiones Totales:</div>
+                <div style="font-weight: bold;">$<span id="val-comision-total">0</span></div>
+                <div style="text-align: right; color: #666;">Bonos Totales:</div>
+                <div style="font-weight: bold;">$<span id="val-bono-total">0</span></div>
+            </div>
+            <div class="total-mes">
+                TOTAL MES: $<span id="val-total-mensual">0</span>
+            </div>
         </div>
 
+        <!-- 7. Fecha de Pago -->
+        <div class="fecha-box" id="fecha-pago-box">
+            Fecha de pago: Calculando...
+        </div>
     </div>
 </div>
 
 <script>
-    // ⚠️ PEGA AQUÍ TU NUEVA URL DE GOOGLE APPS SCRIPT
-    const urlAPI = "https://script.google.com/macros/s/AKfycbzym_LHiVOKx9YjTDQLLgH0XwKm9dzFuufHyr7ild3C020txVQhc-jaZ6zfyiRKGCvhfQ/exec";
+    // ⚠️ NO OLVIDES PEGAR TU URL DE GOOGLE APPS SCRIPT AQUÍ
+    const urlAPI = "https://script.google.com/macros/s/AKfycbzym_LHiVOKx9YjTDQLLgH0XwKm9dzFuufHyr7ild3C020txVQhc-jaZ6zfyiRKGCvhfQ/exec"; 
     
     let datosGlobales = {};
 
@@ -142,7 +184,27 @@
                     
                     document.getElementById('nombre-usuario').innerText = datosGlobales['Nombre'] || 'Promotor';
                     
-                    // Cargamos los datos de la semana 1 por defecto al entrar
+                    // Llenar Acumulados (Estos no cambian con el selector de semanas)
+                    document.getElementById('val-comision-total').innerText = datosGlobales['COMISION TOTAL'] || '0';
+                    document.getElementById('val-bono-total').innerText = datosGlobales['BONO_TOTAL'] || '0';
+                    document.getElementById('val-total-mensual').innerText = datosGlobales['TOTAL_MENSUAL'] || '0';
+
+                    // Formatear Fecha
+                    let fechaTxt = datosGlobales['FECHA_PAGO'];
+                    if(fechaTxt && fechaTxt !== "") {
+                        try {
+                            const fechaObj = new Date(fechaTxt);
+                            if(!isNaN(fechaObj)) {
+                                const opciones = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                                fechaTxt = fechaObj.toLocaleDateString('es-MX', opciones);
+                            }
+                        } catch(e) {}
+                        document.getElementById('fecha-pago-box').innerText = "📅 Fecha de pago: " + fechaTxt;
+                    } else {
+                        document.getElementById('fecha-pago-box').innerText = "📅 Fecha de pago: Pendiente";
+                    }
+
+                    // Cargar la semana 1 por defecto
                     actualizarVista(); 
                 }
             })
@@ -155,20 +217,54 @@
     function actualizarVista() {
         const numSemana = document.getElementById('selector-semana').value;
         
-        // Mapeamos los datos dependiendo del número de semana elegido (ej. LEADS_1, LEADS_2)
-        document.getElementById('val-leads').innerText = datosGlobales['LEADS_' + numSemana] || '0';
-        document.getElementById('val-su').innerText = datosGlobales['SU_' + numSemana] || '0';
-        document.getElementById('val-dft').innerText = datosGlobales['DFT_' + numSemana] || '0';
+        const leads = parseInt(datosGlobales['LEADS_' + numSemana]) || 0;
+        const su = parseInt(datosGlobales['SU_' + numSemana]) || 0;
+        const dft = parseInt(datosGlobales['DFT_' + numSemana]) || 0;
+
+        document.getElementById('val-leads').innerText = leads;
+        document.getElementById('val-su').innerText = su;
+        document.getElementById('val-dft').innerText = dft;
         
         document.getElementById('val-comision').innerText = datosGlobales['COMISION_' + numSemana] || '0';
         document.getElementById('val-bono').innerText = datosGlobales['BONO_' + numSemana] || '0';
-        
         document.getElementById('val-faltan').innerText = datosGlobales['FALTAN_' + numSemana] || '0';
-        document.getElementById('val-sig-bono').innerText = datosGlobales['SIG_BONO_' + numSemana] || '0';
+        document.getElementById('val-sig-bono').innerText = datosGlobales['SIGUIENTE_' + numSemana] || '0';
         
-        // La recomendación puede ser por semana (RECOMENDACION_1) o general (RECOMENDACION)
-        const recomendacion = datosGlobales['RECOMENDACION_' + numSemana] || datosGlobales['RECOMENDACION'] || '¡Sigue prospectando!';
+        const recomendacion = datosGlobales['RECOMENDACION_' + numSemana] || '-';
         document.getElementById('recomendacion-box').innerHTML = "💡 " + recomendacion;
+
+        // LÓGICA DEL SEMÁFORO
+        calcularSemaforo(su, dft);
+    }
+
+    function calcularSemaforo(su, dft) {
+        // Días de la semana: 0 es Domingo, 1 es Lunes... 6 es Sábado
+        let diaActual = new Date().getDay();
+        // Si es domingo (0), asumimos que trabajaron los 6 días completos de la semana
+        let diasTrabajados = (diaActual === 0) ? 6 : diaActual;
+        
+        // Meta proporcional por día
+        let metaSuProporcional = (15 / 6) * diasTrabajados;
+        let metaDftProporcional = (9 / 6) * diasTrabajados;
+
+        let semaforoCaja = document.getElementById('semaforo-box');
+
+        if(dft >= metaDftProporcional && su >= metaSuProporcional) {
+            semaforoCaja.innerText = "🟢 ¡Excelente ritmo! Vamos en meta";
+            semaforoCaja.style.backgroundColor = "#d4edda";
+            semaforoCaja.style.color = "#155724";
+            semaforoCaja.style.borderColor = "#c3e6cb";
+        } else if (dft >= metaDftProporcional || su >= metaSuProporcional) {
+            semaforoCaja.innerText = "🟡 ¡Vas bien, pero enfócate en subir tus números!";
+            semaforoCaja.style.backgroundColor = "#fff3cd";
+            semaforoCaja.style.color = "#856404";
+            semaforoCaja.style.borderColor = "#ffeeba";
+        } else {
+            semaforoCaja.innerText = "🔴 ¡Acelera el paso! Vas un poco por debajo de la meta";
+            semaforoCaja.style.backgroundColor = "#f8d7da";
+            semaforoCaja.style.color = "#721c24";
+            semaforoCaja.style.borderColor = "#f5c6cb";
+        }
     }
 </script>
 </body>
