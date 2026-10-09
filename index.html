@@ -249,17 +249,17 @@
         let semaforoCaja = document.getElementById('semaforo-box');
 
         if(dft >= metaDftProporcional && su >= metaSuProporcional) {
-            semaforoCaja.innerText = "🟢 ¡Excelente ritmo! Vas por encima de tu meta proporcional.";
+            semaforoCaja.innerText = "🟢 ¡Excelente ritmo! Estas en línea con tu meta hasta hoy";
             semaforoCaja.style.backgroundColor = "#d4edda";
             semaforoCaja.style.color = "#155724";
             semaforoCaja.style.borderColor = "#c3e6cb";
         } else if (dft >= metaDftProporcional || su >= metaSuProporcional) {
-            semaforoCaja.innerText = "🟡 ¡Vas bien! Pero enfócate en emparejar tus números (Te faltan SU o DFTs).";
+            semaforoCaja.innerText = "🟡 ¡Vas bien, pero enfócate en subir tus números!";
             semaforoCaja.style.backgroundColor = "#fff3cd";
             semaforoCaja.style.color = "#856404";
             semaforoCaja.style.borderColor = "#ffeeba";
         } else {
-            semaforoCaja.innerText = "🔴 ¡Acelera el paso! Vas un poco por debajo de la meta para hoy.";
+            semaforoCaja.innerText = "🔴 ¡Acelera el paso! Vas por debajo de la meta.";
             semaforoCaja.style.backgroundColor = "#f8d7da";
             semaforoCaja.style.color = "#721c24";
             semaforoCaja.style.borderColor = "#f5c6cb";
