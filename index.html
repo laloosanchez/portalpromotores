@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal Promotores</title>
+    <style>
+        :root { --didi-orange: #ff7d00; --bg-color: #f4f6f8; --text: #333; }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; padding: 20px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        
+        /* Pantalla Login */
+        #login-screen { text-align: center; margin-top: 50px; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
+        button { width: 100%; background: var(--didi-orange); color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        
+        /* Dashboard */
+        #dashboard-screen { display: none; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        select { padding: 10px; border-radius: 8px; border: 1px solid #ccc; font-size: 14px; }
+        
+        /* Tarjetas */
+        .recomendacion-card { background: #fff3e0; border-left: 5px solid var(--didi-orange); padding: 15px; border-radius: 8px; margin-bottom: 20px; font-weight: 500; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+        .card { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: center; }
+        .card h3 { margin: 0 0 10px 0; font-size: 14px; color: #666; font-weight: normal; }
+        .card .number { font-size: 28px; font-weight: bold; margin: 0; color: #111; }
+        .card.highlight { background: var(--text); color: white; }
+        .card.highlight h3, .card.highlight .number { color: white; }
+        
+        /* Barra de progreso */
+        .bono-section { background: white; padding: 20px; border-radius: 16px; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+        .bono-section h3 { margin-top: 0; }
+        .subtext { font-size: 13px; color: #888; margin-top: 5px; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--didi-orange); border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: 0 auto; display: none; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- PANTALLA LOGIN -->
+    <div id="login-screen">
+        <h2>Bienvenido</h2>
+        <p>Ingresa tu correo para ver tus métricas</p>
+        <input type="email" id="correo-input" placeholder="correo@ejemplo.com">
+        <button onclick="iniciarSesion()">Entrar</button>
+        <div id="loading" class="loader" style="margin-top: 15px;"></div>
+        <p id="error-msg" style="color: red; font-size: 14px;"></p>
+    </div>
+
+    <!-- PANTALLA DASHBOARD -->
+    <div id="dashboard-screen">
+        <div class="header">
+            <h2 style="margin:0;">Hola, <span id="nombre-usuario">Promotor</span></h2>
+            <select id="selector-semana" onchange="actualizarVista()">
+                <option value="actual">Semana Actual</option>
+                <option value="2026-43">Semana 43</option>
+                <option value="2026-42">Semana 42</option>
+                <option value="2026-41">Semana 41</option>
+            </select>
+        </div>
+
+        <div class="recomendacion-card" id="recomendacion-box">
+            <!-- La recomendación se inyecta aquí -->
+        </div>
+
+        <!-- Métricas Principales -->
+        <div class="grid-2">
+            <div class="card highlight">
+                <h3>DFT's</h3>
+                <p class="number" id="val-dft">0</p>
+            </div>
+            <div class="card">
+                <h3>Comisión</h3>
+                <p class="number">$<span id="val-comision">0</span></p>
+            </div>
+        </div>
+
+        <!-- Métricas de Funnel (Solo Semana Actual) -->
+        <div class="grid-2" id="funnel-cards">
+            <div class="card">
+                <h3>Leads Nuevos</h3>
+                <p class="number" id="val-leads">0</p>
+            </div>
+            <div class="card">
+                <h3>SU Actuales</h3>
+                <p class="number" id="val-su">0</p>
+            </div>
+        </div>
+
+        <!-- Sección Bono -->
+        <div class="bono-section">
+            <h3>Progreso de Bono</h3>
+            <p style="font-size: 24px; font-weight: bold; margin: 10px 0;">$<span id="val-bono">0</span> <span style="font-size: 14px; font-weight: normal; color: #666;">(Meta: $<span id="val-siguiente-bono">0</span>)</span></p>
+            <p class="subtext">Te faltan <strong>$<span id="val-cuanto-mas">0</span></strong> para tu siguiente nivel.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ⚠️ PEGA AQUÍ TU NUEVA URL DE GOOGLE APPS SCRIPT
+    const urlAPI = "https://script.google.com/macros/s/AKfycbzym_LHiVOKx9YjTDQLLgH0XwKm9dzFuufHyr7ild3C020txVQhc-jaZ6zfyiRKGCvhfQ/exec";
+    
+    let datosGlobales = {};
+
+    function iniciarSesion() {
+        const correo = document.getElementById('correo-input').value;
+        if(!correo) return;
+        
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('error-msg').innerText = '';
+
+        fetch(urlAPI + "?correo=" + encodeURIComponent(correo))
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('loading').style.display = 'none';
+                if(data.error) {
+                    document.getElementById('error-msg').innerText = data.error;
+                } else {
+                    datosGlobales = data;
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('dashboard-screen').style.display = 'block';
+                    
+                    // Configurar Home
+                    document.getElementById('nombre-usuario').innerText = datosGlobales['Nombre'] || 'Promotor';
+                    document.getElementById('recomendacion-box').innerText = "💡 " + (datosGlobales['RECOMENDACION'] || '¡A seguir sumando!');
+                    document.getElementById('val-siguiente-bono').innerText = datosGlobales['SIGUIENTE_BONO'] || '0';
+                    document.getElementById('val-cuanto-mas').innerText = datosGlobales['CUANTO_MAS'] || '0';
+                    
+                    actualizarVista(); // Carga los números de la semana actual
+                }
+            })
+            .catch(err => {
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error-msg').innerText = "Error de conexión.";
+            });
+    }
+
+    function actualizarVista() {
+        const semana = document.getElementById('selector-semana').value;
+        
+        if(semana === "actual") {
+            document.getElementById('val-dft').innerText = datosGlobales['DFT_SEMANA_ACTUAL'] || '0';
+            document.getElementById('val-comision').innerText = datosGlobales['TOTAL_MENSUAL'] || '0'; // O la columna que prefieras para actual
+            document.getElementById('val-bono').innerText = datosGlobales['BONO_TOTAL'] || '0';
+            
+            // Mostrar Leads y SU (Solo aplican para la semana actual)
+            document.getElementById('funnel-cards').style.display = 'grid';
+            document.getElementById('val-leads').innerText = datosGlobales['LEADS_SEMANA_ACTUAL'] || '0';
+            document.getElementById('val-su').innerText = datosGlobales['SU_SEMANA_ACTUAL'] || '0';
+        } else {
+            // Al elegir una semana histórica (Ej. 2026-42)
+            document.getElementById('val-dft').innerText = datosGlobales['DFT_' + semana] || '0';
+            document.getElementById('val-comision').innerText = datosGlobales['COMISION_' + semana] || '0';
+            document.getElementById('val-bono').innerText = datosGlobales['BONO_' + semana] || '0';
+            
+            // Ocultamos Leads y SU porque es historial
+            document.getElementById('funnel-cards').style.display = 'none';
+        }
+    }
+</script>
+</body>
+</html>
