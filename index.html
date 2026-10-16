@@ -47,7 +47,8 @@
         .podio-msg.motivacion { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
         .podio-wrapper { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin-top: 15px; }
         .podio-col { display: flex; flex-direction: column; align-items: center; width: 30%; text-align: center; }
-        .podio-nom { font-weight: bold; font-size: 12px; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; color: #333; margin-bottom: 5px;}
+        .podio-nom { font-weight: bold; font-size: 12px; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; color: #333; margin-bottom: 2px;}
+        .podio-stats { font-size: 11px; color: #666; margin-bottom: 5px; font-weight: bold; background: #f4f6f8; padding: 2px 4px; border-radius: 4px;}
         .podio-bar { width: 100%; border-radius: 6px 6px 0 0; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 5px; color: white; font-weight: bold; font-size: 16px;}
         .oro .podio-bar { background: linear-gradient(to top, #e6b800, #ffcc00); height: 110px; }
         .plata .podio-bar { background: linear-gradient(to top, #9e9e9e, #cccccc); height: 80px; }
@@ -138,16 +139,19 @@
                 <div class="podio-col plata">
                     <div style="font-size:24px;">🥈</div>
                     <div class="podio-nom" id="pod-2-nom">-</div>
+                    <div class="podio-stats" id="pod-2-stats"></div>
                     <div class="podio-bar">2</div>
                 </div>
                 <div class="podio-col oro">
                     <div style="font-size:32px;">👑</div>
                     <div class="podio-nom" id="pod-1-nom">-</div>
+                    <div class="podio-stats" id="pod-1-stats"></div>
                     <div class="podio-bar">1</div>
                 </div>
                 <div class="podio-col bronce">
                     <div style="font-size:24px;">🥉</div>
                     <div class="podio-nom" id="pod-3-nom">-</div>
+                    <div class="podio-stats" id="pod-3-stats"></div>
                     <div class="podio-bar">3</div>
                 </div>
             </div>
@@ -173,7 +177,6 @@
 </div>
 
 <script>
-    // Tu enlace correcto de Google Apps Script
     const urlAPI = "https://script.google.com/macros/s/AKfycbzym_LHiVOKx9YjTDQLLgH0XwKm9dzFuufHyr7ild3C020txVQhc-jaZ6zfyiRKGCvhfQ/exec"; 
     let datosGlobales = {};
 
@@ -197,12 +200,10 @@
                     
                     document.getElementById('nombre-usuario').innerText = datosGlobales['Nombre'] || 'Promotor';
                     
-                    // Llenar Acumulados
                     document.getElementById('val-comision-total').innerText = datosGlobales['COMISION TOTAL'] || '0';
                     document.getElementById('val-bono-total').innerText = datosGlobales['BONO_TOTAL'] || '0';
                     document.getElementById('val-total-mensual').innerText = datosGlobales['TOTAL_MENSUAL'] || '0';
 
-                    // Formatear Fecha de Pago
                     let claveFecha = Object.keys(datosGlobales).find(k => k.toUpperCase().includes('FECHA'));
                     let fechaTxt = claveFecha ? datosGlobales[claveFecha] : null;
 
@@ -219,7 +220,6 @@
                         document.getElementById('fecha-pago-box').innerText = "📅 Fecha de pago: Pendiente";
                     }
 
-                    // Arrancamos con la semana seleccionada
                     actualizarVista(); 
                 }
             })
@@ -259,7 +259,6 @@
         let metaDftProporcional = (9 / 6) * diasTrabajados;
         let semaforoCaja = document.getElementById('semaforo-box');
 
-        // REGLA ACTUALIZADA: Si ya tienen 9 DFTs, pasan directo a verde.
         if(dft >= 9 || (dft >= metaDftProporcional && su >= metaSuProporcional)) {
             semaforoCaja.innerText = "🟢 ¡Excelente ritmo! Vas por encima de tu meta proporcional.";
             semaforoCaja.style.backgroundColor = "#d4edda"; semaforoCaja.style.color = "#155724"; semaforoCaja.style.borderColor = "#c3e6cb";
@@ -277,6 +276,16 @@
         let nombre2 = datosGlobales['SegundoLugar_' + numSemana] || '-';
         let nombre3 = datosGlobales['TercerLugar_' + numSemana] || '-';
 
+        // Variables para los números
+        let dft1 = datosGlobales['DFTs_PrimerLugar_' + numSemana] || '-';
+        let su1  = datosGlobales['SUs_PrimerLugar_' + numSemana] || '-';
+        
+        let dft2 = datosGlobales['DFTs_SegundoLugar_' + numSemana] || '-';
+        let su2  = datosGlobales['SUs_SegundoLugar_' + numSemana] || '-';
+        
+        let dft3 = datosGlobales['DFTs_TercerLugar_' + numSemana] || '-';
+        let su3  = datosGlobales['SUs_TercerLugar_' + numSemana] || '-';
+
         let miNombre = datosGlobales['Nombre'];
         let podioGrafico = document.getElementById('podio-grafico');
         let podioMensaje = document.getElementById('podio-mensaje');
@@ -285,9 +294,18 @@
             podioGrafico.style.display = 'flex';
             podioMensaje.innerHTML = "Aún no hay datos para esta semana.";
             podioMensaje.className = "podio-msg";
+            
             document.getElementById('pod-1-nom').innerText = "-";
+            document.getElementById('pod-1-stats').innerText = "";
+            document.getElementById('pod-1-stats').style.display = "none";
+            
             document.getElementById('pod-2-nom').innerText = "-";
+            document.getElementById('pod-2-stats').innerText = "";
+            document.getElementById('pod-2-stats').style.display = "none";
+            
             document.getElementById('pod-3-nom').innerText = "-";
+            document.getElementById('pod-3-stats').innerText = "";
+            document.getElementById('pod-3-stats').style.display = "none";
             return;
         }
 
@@ -299,9 +317,18 @@
             podioGrafico.style.display = 'flex'; 
             podioMensaje.innerHTML = "🔥 Vamos a alcanzar a <strong>" + nombre1 + "</strong>";
             podioMensaje.className = "podio-msg motivacion";
+            
             document.getElementById('pod-1-nom').innerText = nombre1;
+            document.getElementById('pod-1-stats').innerText = dft1 + " DFT | " + su1 + " SU";
+            document.getElementById('pod-1-stats').style.display = "block";
+            
             document.getElementById('pod-2-nom').innerText = nombre2;
+            document.getElementById('pod-2-stats').innerText = nombre2 !== '-' ? (dft2 + " DFT | " + su2 + " SU") : "";
+            document.getElementById('pod-2-stats').style.display = nombre2 !== '-' ? "block" : "none";
+            
             document.getElementById('pod-3-nom').innerText = nombre3;
+            document.getElementById('pod-3-stats').innerText = nombre3 !== '-' ? (dft3 + " DFT | " + su3 + " SU") : "";
+            document.getElementById('pod-3-stats').style.display = nombre3 !== '-' ? "block" : "none";
         }
     }
 </script>
