@@ -195,6 +195,13 @@
                     document.getElementById('error-msg').innerText = data.error;
                 } else {
                     datosGlobales = data;
+                    
+                    // ==========================================
+                    // 🔎 ALARMA DEL DETECTOR
+                    // ==========================================
+                    alert("🔎 DETECTOR ACTIVADO:\nLas columnas de DFT que estoy leyendo de tu Excel son:\n\n" + Object.keys(datosGlobales).filter(k => k.toUpperCase().includes('DFT')).join("\n"));
+                    // ==========================================
+
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('dashboard-screen').style.display = 'block';
                     
@@ -276,7 +283,6 @@
         let nombre2 = datosGlobales['SegundoLugar_' + numSemana] || '-';
         let nombre3 = datosGlobales['TercerLugar_' + numSemana] || '-';
 
-        // Variables para los números
         let dft1 = datosGlobales['DFTs_PrimerLugar_' + numSemana] || '-';
         let su1  = datosGlobales['SUs_PrimerLugar_' + numSemana] || '-';
         
