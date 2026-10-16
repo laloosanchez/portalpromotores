@@ -9,21 +9,17 @@
         body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--bg-color); color: var(--text); margin: 0; padding: 20px; }
         .container { max-width: 500px; margin: 0 auto; padding-bottom: 30px; }
         
-        /* Login */
         #login-screen { text-align: center; margin-top: 50px; background: white; padding: 30px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         input { width: 100%; padding: 12px; margin: 15px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; }
         button { width: 100%; background: var(--didi-orange); color: white; border: none; padding: 14px; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; }
         
-        /* Header */
         #dashboard-screen { display: none; }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
         select { padding: 8px 12px; border-radius: 8px; border: 1px solid #ccc; font-size: 15px; background: white; font-weight: bold; color: var(--text); }
         
-        /* 1. Meta */
         .meta-box { background: #333; color: white; padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 20px; font-weight: bold; letter-spacing: 0.5px; }
         .meta-box span { color: var(--didi-orange); }
         
-        /* 2. Números Semanales */
         .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .card { background: white; padding: 15px 5px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); text-align: center; }
         .card h3 { margin: 0 0 8px 0; font-size: 13px; color: #666; font-weight: normal; }
@@ -31,13 +27,10 @@
         .card.highlight { background: var(--didi-orange); color: white; }
         .card.highlight h3, .card.highlight .number { color: white; }
         
-        /* 3. Semáforo */
         .semaforo-box { padding: 15px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-size: 14px; font-weight: 500; border: 1px solid rgba(0,0,0,0.1); }
         
-        /* 4. Recomendación */
         .recomendacion-card { background: white; border-left: 5px solid #2196F3; padding: 15px; border-radius: 8px; margin-bottom: 25px; font-size: 14px; line-height: 1.5; font-weight: 500; box-shadow: 0 2px 5px rgba(0,0,0,0.02);}
         
-        /* 5. Comisiones de la Semana (Crema) */
         .bloque-crema { background: #fffdf5; border: 1px solid #f0e6d2; padding: 20px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
         .bloque-crema h2 { margin: 0 0 15px 0; font-size: 16px; color: #5a4f3b; border-bottom: 1px solid #e8dec8; padding-bottom: 10px; text-align: center;}
         .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; text-align: center; }
@@ -46,17 +39,29 @@
         .bono-text { background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #5a4f3b; text-align: center; }
         .bono-text strong { color: var(--didi-orange); font-size: 16px; }
 
+        /* PODIO ESTILOS */
+        .bloque-podio { background: white; padding: 20px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .bloque-podio h2 { margin: 0 0 15px 0; font-size: 16px; text-align: center; }
+        .podio-msg { padding: 12px; border-radius: 8px; font-size: 15px; margin-bottom: 15px; text-align: center; font-weight: 500; }
+        .podio-msg.exito { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .podio-msg.motivacion { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+        .podio-wrapper { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin-top: 15px; }
+        .podio-col { display: flex; flex-direction: column; align-items: center; width: 30%; text-align: center; }
+        .podio-nom { font-weight: bold; font-size: 12px; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; color: #333;}
+        .podio-stats { font-size: 10px; color: #666; margin-bottom: 5px; font-weight: bold; }
+        .podio-bar { width: 100%; border-radius: 6px 6px 0 0; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 5px; color: white; font-weight: bold; font-size: 16px;}
+        .oro .podio-bar { background: linear-gradient(to top, #e6b800, #ffcc00); height: 110px; }
+        .plata .podio-bar { background: linear-gradient(to top, #9e9e9e, #cccccc); height: 80px; }
+        .bronce .podio-bar { background: linear-gradient(to top, #cd7f32, #e69950); height: 50px; }
+
         hr.divisor { border: 0; border-top: 2px dashed #ddd; margin: 25px 0; }
 
-        /* 6. Acumulado Mensual */
         .bloque-acumulado { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .bloque-acumulado h2 { margin: 0 0 15px 0; font-size: 16px; text-align: center; }
         .acumulado-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; font-size: 14px;}
         .total-mes { background: #222; color: white; text-align: center; padding: 15px; border-radius: 8px; font-size: 18px; font-weight: bold; }
         
-        /* 7. Fecha de Pago */
         .fecha-box { text-align: center; font-size: 13px; color: #666; margin-top: 20px; font-style: italic; }
-
         .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--didi-orange); border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: 0 auto; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
@@ -74,7 +79,6 @@
     </div>
 
     <div id="dashboard-screen">
-        <!-- Header -->
         <div class="header">
             <h2 style="margin:0; font-size: 18px;">Hola, <span id="nombre-usuario">Promotor</span></h2>
             <select id="selector-semana" onchange="actualizarVista()">
@@ -85,12 +89,10 @@
             </select>
         </div>
 
-        <!-- 1. Meta -->
         <div class="meta-box">
             🎯 META SEMANAL: <span>15 SU</span> y <span>9 DFTs</span>
         </div>
 
-        <!-- 2. Números -->
         <div class="grid-3">
             <div class="card">
                 <h3>Leads</h3>
@@ -106,17 +108,10 @@
             </div>
         </div>
 
-        <!-- 3. Semáforo -->
-        <div class="semaforo-box" id="semaforo-box">
-            🚦 Calculando tu ritmo...
-        </div>
+        <div class="semaforo-box" id="semaforo-box">🚦 Calculando tu ritmo...</div>
 
-        <!-- 4. Recomendación -->
-        <div class="recomendacion-card" id="recomendacion-box">
-            💡 Cargando recomendación...
-        </div>
+        <div class="recomendacion-card" id="recomendacion-box">💡 Cargando recomendación...</div>
 
-        <!-- 5. Comisiones de la Semana -->
         <div class="bloque-crema">
             <h2>Tus comisiones de la semana</h2>
             <div class="grid-2">
@@ -135,9 +130,35 @@
             </div>
         </div>
 
+        <!-- SECCIÓN DEL PODIO -->
+        <div class="bloque-podio">
+            <h2>🏆 Top Promotores de la Semana</h2>
+            <div id="podio-mensaje"></div>
+            
+            <div class="podio-wrapper" id="podio-grafico">
+                <div class="podio-col plata">
+                    <div style="font-size:24px;">🥈</div>
+                    <div class="podio-nom" id="pod-2-nom">-</div>
+                    <div class="podio-stats" id="pod-2-stats">-</div>
+                    <div class="podio-bar">2</div>
+                </div>
+                <div class="podio-col oro">
+                    <div style="font-size:32px;">👑</div>
+                    <div class="podio-nom" id="pod-1-nom">-</div>
+                    <div class="podio-stats" id="pod-1-stats">-</div>
+                    <div class="podio-bar">1</div>
+                </div>
+                <div class="podio-col bronce">
+                    <div style="font-size:24px;">🥉</div>
+                    <div class="podio-nom" id="pod-3-nom">-</div>
+                    <div class="podio-stats" id="pod-3-stats">-</div>
+                    <div class="podio-bar">3</div>
+                </div>
+            </div>
+        </div>
+
         <hr class="divisor">
 
-        <!-- 6. Acumulado Mes -->
         <div class="bloque-acumulado">
             <h2>Acumulado del Mes</h2>
             <div class="acumulado-grid">
@@ -151,17 +172,12 @@
             </div>
         </div>
 
-        <!-- 7. Fecha de Pago -->
-        <div class="fecha-box" id="fecha-pago-box">
-            Fecha de pago: Calculando...
-        </div>
+        <div class="fecha-box" id="fecha-pago-box">Fecha de pago: Calculando...</div>
     </div>
 </div>
 
 <script>
-    // URL YA INTEGRADA
     const urlAPI = "https://script.google.com/macros/s/AKfycbzym_LHiVOKx9YjTDQLLgH0XwKm9dzFuufHyr7ild3C020txVQhc-jaZ6zfyiRKGCvhfQ/exec"; 
-    
     let datosGlobales = {};
 
     function iniciarSesion() {
@@ -189,7 +205,7 @@
                     document.getElementById('val-bono-total').innerText = datosGlobales['BONO_TOTAL'] || '0';
                     document.getElementById('val-total-mensual').innerText = datosGlobales['TOTAL_MENSUAL'] || '0';
 
-                    // Formatear Fecha: Busca la primera columna que tenga la palabra "FECHA"
+                    // Formatear Fecha
                     let claveFecha = Object.keys(datosGlobales).find(k => k.toUpperCase().includes('FECHA'));
                     let fechaTxt = claveFecha ? datosGlobales[claveFecha] : null;
 
@@ -206,7 +222,6 @@
                         document.getElementById('fecha-pago-box').innerText = "📅 Fecha de pago: Pendiente";
                     }
 
-                    // Cargar la semana 1 por defecto
                     actualizarVista(); 
                 }
             })
@@ -235,34 +250,83 @@
         const recomendacion = datosGlobales['RECOMENDACION_' + numSemana] || '-';
         document.getElementById('recomendacion-box').innerHTML = "💡 " + recomendacion;
 
-        // LÓGICA DEL SEMÁFORO
         calcularSemaforo(su, dft);
+        calcularPodio(numSemana); // Llamada para actualizar el podio
     }
 
     function calcularSemaforo(su, dft) {
         let diaActual = new Date().getDay();
         let diasTrabajados = (diaActual === 0) ? 6 : diaActual;
-        
         let metaSuProporcional = (15 / 6) * diasTrabajados;
         let metaDftProporcional = (9 / 6) * diasTrabajados;
-
         let semaforoCaja = document.getElementById('semaforo-box');
 
         if(dft >= metaDftProporcional && su >= metaSuProporcional) {
-            semaforoCaja.innerText = "🟢 ¡Excelente ritmo! Estas en línea con tu meta hasta hoy";
-            semaforoCaja.style.backgroundColor = "#d4edda";
-            semaforoCaja.style.color = "#155724";
-            semaforoCaja.style.borderColor = "#c3e6cb";
+            semaforoCaja.innerText = "🟢 ¡Excelente ritmo! Vas por encima de tu meta proporcional.";
+            semaforoCaja.style.backgroundColor = "#d4edda"; semaforoCaja.style.color = "#155724"; semaforoCaja.style.borderColor = "#c3e6cb";
         } else if (dft >= metaDftProporcional || su >= metaSuProporcional) {
-            semaforoCaja.innerText = "🟡 ¡Vas bien, pero enfócate en subir tus números!";
-            semaforoCaja.style.backgroundColor = "#fff3cd";
-            semaforoCaja.style.color = "#856404";
-            semaforoCaja.style.borderColor = "#ffeeba";
+            semaforoCaja.innerText = "🟡 ¡Vas bien! Pero enfócate en emparejar tus números (Te faltan SU o DFTs).";
+            semaforoCaja.style.backgroundColor = "#fff3cd"; semaforoCaja.style.color = "#856404"; semaforoCaja.style.borderColor = "#ffeeba";
         } else {
-            semaforoCaja.innerText = "🔴 ¡Acelera el paso! Vas por debajo de la meta.";
-            semaforoCaja.style.backgroundColor = "#f8d7da";
-            semaforoCaja.style.color = "#721c24";
-            semaforoCaja.style.borderColor = "#f5c6cb";
+            semaforoCaja.innerText = "🔴 ¡Acelera el paso! Vas un poco por debajo de la meta para hoy.";
+            semaforoCaja.style.backgroundColor = "#f8d7da"; semaforoCaja.style.color = "#721c24"; semaforoCaja.style.borderColor = "#f5c6cb";
+        }
+    }
+
+    function calcularPodio(numSemana) {
+        let todos = datosGlobales['_todos'] || [];
+        if(todos.length === 0) return; // Si no actualizaron el Apps Script, el podio no se rompe, solo no hace nada.
+
+        // 1. Calcular ganancias de todos y ordenarlos
+        let ranking = todos.map(u => {
+            // Convertir "$1,500" a número 1500 de forma segura
+            let com = parseFloat(String(u['COMISION_' + numSemana] || '0').replace(/[^0-9.-]+/g,"")) || 0;
+            let bono = parseFloat(String(u['BONO_' + numSemana] || '0').replace(/[^0-9.-]+/g,"")) || 0;
+            return {
+                nombre: u['Nombre'] || 'Anónimo',
+                ganancia: com + bono,
+                dft: parseInt(u['DFT_' + numSemana]) || 0,
+                su: parseInt(u['SU_' + numSemana]) || 0
+            };
+        }).sort((a, b) => b.ganancia - a.ganancia);
+
+        let miNombre = datosGlobales['Nombre'];
+        let posActual = ranking.findIndex(u => u.nombre === miNombre) + 1;
+        let lider = ranking[0] ? ranking[0].nombre : 'el líder';
+
+        let podioGrafico = document.getElementById('podio-grafico');
+        let podioMensaje = document.getElementById('podio-mensaje');
+
+        if (posActual === 1) {
+            // Si es el Número 1
+            podioGrafico.style.display = 'none'; // Oculta los 3 lugares
+            podioMensaje.innerHTML = "👑 <strong>¡Buen trabajo!</strong> ¡Cerremos más DFTs para ganar más!";
+            podioMensaje.className = "podio-msg exito";
+        } else {
+            // Si es el Número 2 para abajo
+            podioGrafico.style.display = 'flex'; // Muestra los 3 lugares
+            podioMensaje.innerHTML = "🔥 Vamos a alcanzar a <strong>" + lider + "</strong>";
+            podioMensaje.className = "podio-msg motivacion";
+            
+            // Llenar datos del podio (Lugar 1)
+            if(ranking[0]) {
+                document.getElementById('pod-1-nom').innerText = ranking[0].nombre;
+                document.getElementById('pod-1-stats').innerText = ranking[0].dft + " DFTs | " + ranking[0].su + " SUs";
+            }
+            // Llenar datos del podio (Lugar 2)
+            if(ranking[1]) {
+                document.getElementById('pod-2-nom').innerText = ranking[1].nombre;
+                document.getElementById('pod-2-stats').innerText = ranking[1].dft + " DFTs | " + ranking[1].su + " SUs";
+            } else {
+                document.getElementById('pod-2-nom').innerText = "-"; document.getElementById('pod-2-stats').innerText = "";
+            }
+            // Llenar datos del podio (Lugar 3)
+            if(ranking[2]) {
+                document.getElementById('pod-3-nom').innerText = ranking[2].nombre;
+                document.getElementById('pod-3-stats').innerText = ranking[2].dft + " DFTs | " + ranking[2].su + " SUs";
+            } else {
+                document.getElementById('pod-3-nom').innerText = "-"; document.getElementById('pod-3-stats').innerText = "";
+            }
         }
     }
 </script>
