@@ -274,61 +274,47 @@
     }
 
     function calcularPodio(numSemana) {
-        let todos = datosGlobales['_todos'] || [];
-        if(todos.length === 0) return; // Si no actualizaron el Apps Script, el podio no se rompe, solo no hace nada.
+            // Leer las nuevas columnas directamente
+            let nombre1 = datosGlobales['PrimerLugar_' + numSemana] || '-';
+            let nombre2 = datosGlobales['SegundoLugar_' + numSemana] || '-';
+            let nombre3 = datosGlobales['TercerLugar_' + numSemana] || '-';
 
-        // 1. Calcular ganancias de todos y ordenarlos
-        let ranking = todos.map(u => {
-            // Convertir "$1,500" a número 1500 de forma segura
-            let com = parseFloat(String(u['COMISION_' + numSemana] || '0').replace(/[^0-9.-]+/g,"")) || 0;
-            let bono = parseFloat(String(u['BONO_' + numSemana] || '0').replace(/[^0-9.-]+/g,"")) || 0;
-            return {
-                nombre: u['Nombre'] || 'Anónimo',
-                ganancia: com + bono,
-                dft: parseInt(u['DFT_' + numSemana]) || 0,
-                su: parseInt(u['SU_' + numSemana]) || 0
-            };
-        }).sort((a, b) => b.ganancia - a.ganancia);
+            let miNombre = datosGlobales['Nombre'];
+            let podioGrafico = document.getElementById('podio-grafico');
+            let podioMensaje = document.getElementById('podio-mensaje');
 
-        let miNombre = datosGlobales['Nombre'];
-        let posActual = ranking.findIndex(u => u.nombre === miNombre) + 1;
-        let lider = ranking[0] ? ranking[0].nombre : 'el líder';
-
-        let podioGrafico = document.getElementById('podio-grafico');
-        let podioMensaje = document.getElementById('podio-mensaje');
-
-        if (posActual === 1) {
-            // Si es el Número 1
-            podioGrafico.style.display = 'none'; // Oculta los 3 lugares
-            podioMensaje.innerHTML = "👑 <strong>¡Buen trabajo!</strong> ¡Cerremos más DFTs para ganar más!";
-            podioMensaje.className = "podio-msg exito";
-        } else {
-            // Si es el Número 2 para abajo
-            podioGrafico.style.display = 'flex'; // Muestra los 3 lugares
-            podioMensaje.innerHTML = "🔥 Vamos a alcanzar a <strong>" + lider + "</strong>";
-            podioMensaje.className = "podio-msg motivacion";
-            
-            // Llenar datos del podio (Lugar 1)
-            if(ranking[0]) {
-                document.getElementById('pod-1-nom').innerText = ranking[0].nombre;
-                document.getElementById('pod-1-stats').innerText = ranking[0].dft + " DFTs | " + ranking[0].su + " SUs";
-            }
-            // Llenar datos del podio (Lugar 2)
-            if(ranking[1]) {
-                document.getElementById('pod-2-nom').innerText = ranking[1].nombre;
-                document.getElementById('pod-2-stats').innerText = ranking[1].dft + " DFTs | " + ranking[1].su + " SUs";
-            } else {
+            // Si la semana está vacía
+            if(nombre1 === '-') {
+                podioGrafico.style.display = 'flex';
+                podioMensaje.innerHTML = "Aún no hay datos para esta semana.";
+                podioMensaje.className = "podio-msg";
+                document.getElementById('pod-1-nom').innerText = "-"; document.getElementById('pod-1-stats').innerText = "";
                 document.getElementById('pod-2-nom').innerText = "-"; document.getElementById('pod-2-stats').innerText = "";
-            }
-            // Llenar datos del podio (Lugar 3)
-            if(ranking[2]) {
-                document.getElementById('pod-3-nom').innerText = ranking[2].nombre;
-                document.getElementById('pod-3-stats').innerText = ranking[2].dft + " DFTs | " + ranking[2].su + " SUs";
-            } else {
                 document.getElementById('pod-3-nom').innerText = "-"; document.getElementById('pod-3-stats').innerText = "";
+                return;
             }
-        }
-    }
+
+            if (miNombre === nombre1) {
+                // Si es el Número 1
+                podioGrafico.style.display = 'none'; 
+                podioMensaje.innerHTML = "👑 <strong>¡Buen trabajo!</strong> ¡Cerremos más DFTs para ganar más!";
+                podioMensaje.className = "podio-msg exito";
+            } else {
+                // Si es el Número 2 para abajo
+                podioGrafico.style.display = 'flex'; 
+                podioMensaje.innerHTML = "🔥 Vamos a alcanzar a <strong>" + nombre1 + "</strong>";
+                podioMensaje.className = "podio-msg motivacion";
+                
+                document.getElementById('pod-1-nom').innerText = nombre1;
+                document.getElementById('pod-1-stats').innerText = "";
+                
+                document.getElementById('pod-2-nom').innerText = nombre2;
+                document.getElementById('pod-2-stats').innerText = "";
+                
+                document.getElementById('pod-3-nom').innerText = nombre3;
+                document.getElementById('pod-3-stats').innerText = "";
+            }
+        }    }
 </script>
 </body>
 </html>
