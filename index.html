@@ -39,16 +39,16 @@
         .bono-text { background: rgba(255, 255, 255, 0.6); padding: 15px; border-radius: 8px; font-size: 14px; line-height: 1.6; color: #5a4f3b; text-align: center; }
         .bono-text strong { color: var(--didi-orange); font-size: 16px; }
 
-        /* PODIO ESTILOS */
+        /* ESTILOS DEL PODIO */
         .bloque-podio { background: white; padding: 20px; border-radius: 16px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         .bloque-podio h2 { margin: 0 0 15px 0; font-size: 16px; text-align: center; }
-        .podio-msg { padding: 12px; border-radius: 8px; font-size: 15px; margin-bottom: 15px; text-align: center; font-weight: 500; }
+        .podio-msg { padding: 12px; border-radius: 8px; font-size: 14px; margin-bottom: 15px; text-align: center; font-weight: 500; background: #f9f9f9;}
         .podio-msg.exito { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .podio-msg.motivacion { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
         .podio-wrapper { display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin-top: 15px; }
         .podio-col { display: flex; flex-direction: column; align-items: center; width: 30%; text-align: center; }
-        .podio-nom { font-weight: bold; font-size: 12px; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; color: #333;}
-        .podio-stats { font-size: 10px; color: #666; margin-bottom: 5px; font-weight: bold; }
+        .podio-nom { font-weight: bold; font-size: 12px; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; color: #333; margin-bottom: 5px;}
+        .podio-stats { font-size: 10px; color: #666; margin-bottom: 5px; font-weight: bold; display:none; } /* Oculto porque ahora solo usamos nombres */
         .podio-bar { width: 100%; border-radius: 6px 6px 0 0; display: flex; justify-content: center; align-items: flex-end; padding-bottom: 5px; color: white; font-weight: bold; font-size: 16px;}
         .oro .podio-bar { background: linear-gradient(to top, #e6b800, #ffcc00); height: 110px; }
         .plata .podio-bar { background: linear-gradient(to top, #9e9e9e, #cccccc); height: 80px; }
@@ -139,19 +139,16 @@
                 <div class="podio-col plata">
                     <div style="font-size:24px;">🥈</div>
                     <div class="podio-nom" id="pod-2-nom">-</div>
-                    <div class="podio-stats" id="pod-2-stats">-</div>
                     <div class="podio-bar">2</div>
                 </div>
                 <div class="podio-col oro">
                     <div style="font-size:32px;">👑</div>
                     <div class="podio-nom" id="pod-1-nom">-</div>
-                    <div class="podio-stats" id="pod-1-stats">-</div>
                     <div class="podio-bar">1</div>
                 </div>
                 <div class="podio-col bronce">
                     <div style="font-size:24px;">🥉</div>
                     <div class="podio-nom" id="pod-3-nom">-</div>
-                    <div class="podio-stats" id="pod-3-stats">-</div>
                     <div class="podio-bar">3</div>
                 </div>
             </div>
@@ -177,6 +174,7 @@
 </div>
 
 <script>
+    // Tu enlace correcto de Google Apps Script
     const urlAPI = "https://script.google.com/macros/s/AKfycbzym_LHiVOKx9YjTDQLLgH0XwKm9dzFuufHyr7ild3C020txVQhc-jaZ6zfyiRKGCvhfQ/exec"; 
     let datosGlobales = {};
 
@@ -205,7 +203,7 @@
                     document.getElementById('val-bono-total').innerText = datosGlobales['BONO_TOTAL'] || '0';
                     document.getElementById('val-total-mensual').innerText = datosGlobales['TOTAL_MENSUAL'] || '0';
 
-                    // Formatear Fecha
+                    // Formatear Fecha de Pago
                     let claveFecha = Object.keys(datosGlobales).find(k => k.toUpperCase().includes('FECHA'));
                     let fechaTxt = claveFecha ? datosGlobales[claveFecha] : null;
 
@@ -222,6 +220,7 @@
                         document.getElementById('fecha-pago-box').innerText = "📅 Fecha de pago: Pendiente";
                     }
 
+                    // Arrancamos con la semana seleccionada
                     actualizarVista(); 
                 }
             })
@@ -251,7 +250,7 @@
         document.getElementById('recomendacion-box').innerHTML = "💡 " + recomendacion;
 
         calcularSemaforo(su, dft);
-        calcularPodio(numSemana); // Llamada para actualizar el podio
+        calcularPodio(numSemana);
     }
 
     function calcularSemaforo(su, dft) {
@@ -274,47 +273,42 @@
     }
 
     function calcularPodio(numSemana) {
-            // Leer las nuevas columnas directamente
-            let nombre1 = datosGlobales['PrimerLugar_' + numSemana] || '-';
-            let nombre2 = datosGlobales['SegundoLugar_' + numSemana] || '-';
-            let nombre3 = datosGlobales['TercerLugar_' + numSemana] || '-';
+        // Leer directamente los nombres calculados por Google Sheets
+        let nombre1 = datosGlobales['PrimerLugar_' + numSemana] || '-';
+        let nombre2 = datosGlobales['SegundoLugar_' + numSemana] || '-';
+        let nombre3 = datosGlobales['TercerLugar_' + numSemana] || '-';
 
-            let miNombre = datosGlobales['Nombre'];
-            let podioGrafico = document.getElementById('podio-grafico');
-            let podioMensaje = document.getElementById('podio-mensaje');
+        let miNombre = datosGlobales['Nombre'];
+        let podioGrafico = document.getElementById('podio-grafico');
+        let podioMensaje = document.getElementById('podio-mensaje');
 
-            // Si la semana está vacía
-            if(nombre1 === '-') {
-                podioGrafico.style.display = 'flex';
-                podioMensaje.innerHTML = "Aún no hay datos para esta semana.";
-                podioMensaje.className = "podio-msg";
-                document.getElementById('pod-1-nom').innerText = "-"; document.getElementById('pod-1-stats').innerText = "";
-                document.getElementById('pod-2-nom').innerText = "-"; document.getElementById('pod-2-stats').innerText = "";
-                document.getElementById('pod-3-nom').innerText = "-"; document.getElementById('pod-3-stats').innerText = "";
-                return;
-            }
+        // Si el ganador es "-", significa que la semana está vacía
+        if(nombre1 === '-') {
+            podioGrafico.style.display = 'flex';
+            podioMensaje.innerHTML = "Aún no hay datos para esta semana.";
+            podioMensaje.className = "podio-msg";
+            document.getElementById('pod-1-nom').innerText = "-";
+            document.getElementById('pod-2-nom').innerText = "-";
+            document.getElementById('pod-3-nom').innerText = "-";
+            return;
+        }
 
-            if (miNombre === nombre1) {
-                // Si es el Número 1
-                podioGrafico.style.display = 'none'; 
-                podioMensaje.innerHTML = "👑 <strong>¡Buen trabajo!</strong> ¡Cerremos más DFTs para ganar más!";
-                podioMensaje.className = "podio-msg exito";
-            } else {
-                // Si es el Número 2 para abajo
-                podioGrafico.style.display = 'flex'; 
-                podioMensaje.innerHTML = "🔥 Vamos a alcanzar a <strong>" + nombre1 + "</strong>";
-                podioMensaje.className = "podio-msg motivacion";
-                
-                document.getElementById('pod-1-nom').innerText = nombre1;
-                document.getElementById('pod-1-stats').innerText = "";
-                
-                document.getElementById('pod-2-nom').innerText = nombre2;
-                document.getElementById('pod-2-stats').innerText = "";
-                
-                document.getElementById('pod-3-nom').innerText = nombre3;
-                document.getElementById('pod-3-stats').innerText = "";
-            }
-        }    }
+        if (miNombre === nombre1) {
+            // Es el campeón
+            podioGrafico.style.display = 'none'; 
+            podioMensaje.innerHTML = "👑 <strong>¡Buen trabajo!</strong> ¡Cerremos más DFTs para ganar más!";
+            podioMensaje.className = "podio-msg exito";
+        } else {
+            // No es el campeón
+            podioGrafico.style.display = 'flex'; 
+            podioMensaje.innerHTML = "🔥 Vamos a alcanzar a <strong>" + nombre1 + "</strong>";
+            podioMensaje.className = "podio-msg motivacion";
+            
+            document.getElementById('pod-1-nom').innerText = nombre1;
+            document.getElementById('pod-2-nom').innerText = nombre2;
+            document.getElementById('pod-3-nom').innerText = nombre3;
+        }
+    }
 </script>
 </body>
 </html>
